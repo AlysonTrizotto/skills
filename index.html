@@ -17,8 +17,8 @@
     <nav class="navbar">
         <div class="container nav-content">
             <div class="logo">Staff+ <span>Skills</span></div>
-            <a href="#features" class="nav-link">Filosofia</a>
             <a href="#how-it-works" class="nav-link">Como Funciona</a>
+            <a href="#features" class="nav-link">Filosofia</a>
             <a href="#supported" class="nav-link">Compatibilidade</a>
         </div>
     </nav>
@@ -58,33 +58,6 @@
         </div>
     </header>
 
-    <section id="features" class="features section">
-        <div class="container">
-            <div class="section-header">
-                <h2>O Paradigma <span class="text-gradient">Staff+</span></h2>
-                <p>Nós desenhamos regras que a maioria dos desenvolvedores ignora. Caching, transações, concorrência e vazamentos de memória.</p>
-            </div>
-            
-            <div class="grid-3">
-                <div class="feature-card reveal">
-                    <div class="icon-box">🛡️</div>
-                    <h3>Desafiar > Obedecer</h3>
-                    <p>A IA é treinada com <strong>Challenge Triggers</strong>. Se você propuser N+1 queries ou I/O bloqueante, ela é forçada a recusar e propor a solução arquitetural correta.</p>
-                </div>
-                <div class="feature-card reveal" style="transition-delay: 100ms;">
-                    <div class="icon-box">🏷️</div>
-                    <h3>Evidence Tags</h3>
-                    <p>O fim da "caixa preta". A IA usa tags como <code>[FACT]</code>, <code>[CACHE_MISS]</code> e <code>[RACE_CONDITION]</code> para documentar e provar o seu raciocínio antes de cuspir código.</p>
-                </div>
-                <div class="feature-card reveal" style="transition-delay: 200ms;">
-                    <div class="icon-box">⚡</div>
-                    <h3>Cross-cutting Skills</h3>
-                    <p>Carregamento simultâneo e dinâmico. Você programa em Laravel, mas se a intenção for otimizar o CI/CD, a skill <code>devops-lean</code> é ativada em paralelo.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="how-it-works" class="comparison section">
         <div class="container">
             <div class="section-header">
@@ -107,6 +80,33 @@
                         <p class="user-msg">"Crie uma rota para atualizar o status do pedido."</p>
                         <p class="ai-msg good">"<code>[RACE_CONDITION]</code> Evite usar <code>.save()</code> vazio aqui. Se outra request alterar o valor da compra no meio segundo entre o <code>get()</code> e o <code>save()</code>, seus dados serão sobrescritos acidentalmente. <br><br><strong>Use <code>update_fields=['status']</code></strong>."</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features section">
+        <div class="container">
+            <div class="section-header">
+                <h2>O Paradigma <span class="text-gradient">Staff+</span></h2>
+                <p>Nós desenhamos regras que a maioria dos desenvolvedores ignora. Caching, transações, concorrência e vazamentos de memória.</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="feature-card reveal">
+                    <div class="icon-box">🛡️</div>
+                    <h3>Desafiar > Obedecer</h3>
+                    <p>A IA é treinada com <strong>Challenge Triggers</strong>. Se você propuser N+1 queries ou I/O bloqueante, ela é forçada a recusar e propor a solução arquitetural correta.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay: 100ms;">
+                    <div class="icon-box">🏷️</div>
+                    <h3>Evidence Tags</h3>
+                    <p>O fim da "caixa preta". A IA usa tags como <code>[FACT]</code>, <code>[CACHE_MISS]</code> e <code>[RACE_CONDITION]</code> para documentar e provar o seu raciocínio antes de cuspir código.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay: 200ms;">
+                    <div class="icon-box">⚡</div>
+                    <h3>Cross-cutting Skills</h3>
+                    <p>Carregamento simultâneo e dinâmico. Você programa em Laravel, mas se a intenção for otimizar o CI/CD, a skill <code>devops-lean</code> é ativada em paralelo.</p>
                 </div>
             </div>
         </div>
