@@ -3,7 +3,7 @@
 **Turn any AI coding agent into a Staff+ engineering peer — automatically.**
 
 Drop this pack into a repository and your AI assistant (Claude Code, Cursor, Windsurf,
-Copilot, …) **detects the stack on its own** and adopts the right senior-engineer persona,
+Antigravity, Copilot, …) **detects the stack on its own** and adopts the right senior-engineer persona,
 rules, and review checklist for that exact project. No manual file-renaming, no picking a
 mode by hand — the pack maps itself to your codebase.
 
@@ -75,7 +75,8 @@ O instalador gera, sem sobrescrever seus arquivos:
 - `AGENTS.md` na raiz — router universal (lido por qualquer agente de IA);
 - `.cursor/rules/staff-plus.mdc` — Cursor;
 - `.windsurfrules` — Windsurf;
-- `.claude/skills/<id>/` — Claude Code (skills nativas, com auto-invocação).
+- `.claude/skills/<id>/` — Claude Code (skills nativas, com auto-invocação);
+- `GEMINI.md` — Antigravity (que também lê o `AGENTS.md` da raiz nativamente).
 
 **Opção B — manual.** Veja [`adapters/README.md`](adapters/README.md) para colar cada
 formato à mão.

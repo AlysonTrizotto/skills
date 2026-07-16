@@ -1,7 +1,7 @@
 # Staff+ Skills — Router
 
 > **This file is the entry point.** Any AI coding agent (Claude Code, Cursor, Windsurf,
-> Copilot, Gemini, …) that reads repository instructions will read this first.
+> Antigravity, Copilot, Gemini, …) that reads repository instructions will read this first.
 > Follow it **before** answering any engineering request in this repository.
 
 You are operating with the **Staff+ Skills** pack installed. Your job is to detect which

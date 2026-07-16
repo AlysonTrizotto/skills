@@ -78,6 +78,36 @@ skill catalog table if you hit it.
 
 ---
 
+## Antigravity (Google)
+
+Antigravity reads the repo-root **`AGENTS.md` natively** (native support landed in
+v1.20.3), so the universal router already applies — no extra file is strictly required.
+Its rule hierarchy is: *System rules → `GEMINI.md` → `AGENTS.md` → workspace rule files*.
+
+- **Best hook:** keep the router in root `AGENTS.md` (the installer writes it).
+- **Highest-priority reinforce (optional):** add a root `GEMINI.md` pointing at the router
+  (the installer creates one only if you don't already have it):
+
+  ```md
+  # Antigravity project instructions
+  Follow the Staff+ Skills router in AGENTS.md: detect the stack and load the matching
+  skill(s) from skills/<id>/SKILL.md, then apply the Global Contract.
+  ```
+
+- **Global (all projects):** the same content can live in `~/.gemini/AGENTS.md`.
+
+> ⚠️ Verify against your installed version: sources disagree on the workspace rules/skills
+> directory name — some document `.agent/rules/` (singular), others `.agents/skills/`
+> (plural). The root `AGENTS.md` / `GEMINI.md` hooks above are the stable, well-attested
+> path, so the pack relies on those rather than a possibly-wrong directory. If your
+> Antigravity build exposes a skills directory, you can also drop the `skills/*/SKILL.md`
+> files there. Sources:
+> [antigravity.google/docs](https://antigravity.google/docs/agent) ·
+> [AGENTS.md guide](https://agentpedia.codes/blog/antigravity-agents-md-guide) ·
+> [skills codelab](https://codelabs.developers.google.com/autonomous-ai-developer-pipelines-antigravity)
+
+---
+
 ## GitHub Copilot / others
 
 Any agent that reads repository instruction files can use the router. Point its instruction
