@@ -111,4 +111,6 @@ Cada `SKILL.md` é autossuficiente e inclui:
 
 ## 📄 Licença
 
-Uso comercial. Defina aqui os termos da sua distribuição (licença por equipe, por repo, etc.). *(placeholder — ajuste antes de publicar.)*
+**Licença Comercial Proprietária**
+
+Este software é um produto comercial. É estritamente proibida a cópia, modificação, redistribuição, revenda ou sublicenciamento deste pacote, no todo ou em parte, sem a autorização prévia e por escrito do autor. A licença concedida no ato da compra é intransferível e destinada apenas para o uso da pessoa ou empresa compradora.
