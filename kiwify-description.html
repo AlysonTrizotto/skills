@@ -1,0 +1,81 @@
+<h1>🧠 Staff+ Skills</h1>
+
+<p><strong>Turn any AI coding agent into a Staff+ engineering peer — automatically.</strong></p>
+
+<p>Drop this pack into a repository and your AI assistant (Claude Code, Cursor, Windsurf, Antigravity, Copilot, …) <strong>detects the stack on its own</strong> e adota a persona correta de engenheiro sênior, junto com regras e checklist de review para aquele exato projeto. Sem renomear arquivos na mão, sem escolher modos — o pacote mapeia o seu código sozinho.</p>
+
+<blockquote>
+  <p>Antes: você escolhia um <code>.rules</code> genérico, copiava e renomeava na mão.<br>
+  Agora: a IA lê o pacote, descobre a stack, e carrega regras arquiteturais profundas sozinha.</p>
+</blockquote>
+
+<hr>
+
+<h2>⚡ Por que "Staff+"? (A Filosofia)</h2>
+
+<p>A maioria das regras de sistema tentam transformar a IA em um <em>gerador de código educado</em>. O <strong>Staff+ Skills</strong> transforma a IA em um <strong>Revisor Arquitetural Incisivo</strong>. Nós abandonamos o "assistente obediente" em favor do "engenheiro sênior que te desafia".</p>
+
+<h3>1. Desafiar em vez de obedecer (<em>Challenge Triggers</em>)</h3>
+<p>Cada skill possui gatilhos de desafio estritos. Se você pedir para a IA fazer uma query que causa N+1, ou sugerir um I/O bloqueante na thread principal, a IA é instruída a <strong>parar, recusar a implementação inicial e propor a solução arquiteturalmente correta</strong>.</p>
+
+<h3>2. Evidence Tags</h3>
+<p>A IA é forçada a classificar e taggear suas deduções antes de escrever código. Usando tags de escopo global como <code>[FACT]</code> e <code>[ASSUMPTION]</code>, ou específicas da stack como <code>[N+1]</code>, <code>[CACHE_MISS]</code> e <code>[RACE_CONDITION]</code>, você sabe exatamente <em>por que</em> a IA tomou certa decisão.</p>
+
+<h3>3. Skills Transversais por Intenção (<em>Cross-cutting</em>)</h3>
+<p>Seu projeto pode usar Laravel, mas e se a tarefa atual for configurar um CI/CD ou otimizar o banco? O pacote carrega múltiplas skills: uma para a stack (<code>backend-laravel</code>) e outra injetada pela intenção da tarefa (<code>devops-lean</code> ou <code>qa-api-destroyer</code>). A IA muda a postura dinamicamente.</p>
+
+<hr>
+
+<h2>📦 O que vem no pacote</h2>
+
+<pre><code>staff-plus-skills/
+├─ AGENTS.md              ← O ROUTER: detecta a stack e carrega as skills
+├─ install.sh             ← Instala os adaptadores nativos por plataforma
+├─ skills/
+│  ├─ _TEMPLATE.md        Base para criar novas skills Staff+
+│  ├─ backend-django/     (ORM, Fat Models, Transações)
+│  ├─ backend-fastapi/    (Async, Pydantic, DI)
+│  ├─ backend-flask/      (App Factory, Blueprints)
+│  ├─ backend-laravel/    (Cache-first, Collections idiomáticas)
+│  ├─ backend-node/       (Event loop, streams, graceful shutdown)
+│  ├─ backend-rails/      (The Rails Way, Sidekiq)
+│  ├─ devops-lean/        (SRE, Infra imutável)
+│  ├─ qa-api-destroyer/   (Testes adversariais e edge cases)
+│  └─ ...e mais
+└─ adapters/              ← Notas de integração manual
+</code></pre>
+
+<hr>
+
+<h2>🚀 Instalação (30 segundos)</h2>
+
+<p><strong>Opção A — Automática (recomendada).</strong> Copie a pasta do pacote para a raiz do seu repositório e rode o instalador:</p>
+
+<pre><code>cp -r staff-plus-skills/ /caminho/do/seu/repo/
+cd /caminho/do/seu/repo
+./staff-plus-skills/install.sh
+</code></pre>
+
+<p>O instalador gera as ligações nativas sem sobrescrever seus arquivos vitais:</p>
+<ul>
+  <li><code>AGENTS.md</code> na raiz — router universal (lido nativamente por IAs de ponta);</li>
+  <li><code>.cursor/rules/staff-plus.mdc</code> — Para Cursor;</li>
+  <li><code>.windsurfrules</code> — Para Windsurf;</li>
+  <li><code>.claude/skills/&lt;id&gt;/</code> — Para Claude Code (auto-invocação por tools).</li>
+</ul>
+
+<p>Depois de instalar, <strong>recarregue o editor/agente</strong> para ele reler o workspace.</p>
+
+<hr>
+
+<h2>✅ Anatomia de uma Skill</h2>
+
+<p>Cada arquivo de Skill é autossuficiente e treina a IA com:</p>
+<ul>
+  <li><strong>Persona & Escopo</strong> — quando ela deve agir;</li>
+  <li><strong>Gatilhos de Desafio</strong> — quando ela deve recusar pedidos ruins;</li>
+  <li><strong>Regras (DO)</strong> — com o <em>porquê</em> técnico bem embasado;</li>
+  <li><strong>Anti-padrões (DON'T)</strong> — o que ela jamais deve escrever;</li>
+  <li><strong>Exemplos de Código (❌ vs ✅)</strong>;</li>
+  <li><strong>Checklist de Review</strong> — pronto para um PR de verdade.</li>
+</ul>
