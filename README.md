@@ -36,6 +36,7 @@ staff-plus-skills/
 │  ├─ backend-hyperf/SKILL.md
 │  ├─ backend-laravel/SKILL.md
 │  ├─ backend-rails/SKILL.md
+│  ├─ backend-node/SKILL.md
 │  ├─ frontend-performance/SKILL.md
 │  ├─ mobile-resilience/SKILL.md
 │  ├─ devops-lean/SKILL.md
@@ -51,6 +52,7 @@ staff-plus-skills/
 | Backend | `backend-hyperf` | PHP/Swoole coroutine-safe — pooling, statelessness |
 | Backend | `backend-laravel` | Laravel idiomático — sem legado/Lumen, cache-first |
 | Backend | `backend-rails` | The Rails Way — MVC, Sidekiq, cache |
+| Backend | `backend-node` | Node.js — event loop, streams, async safety, graceful shutdown |
 | Frontend | `frontend-performance` | Web Vitals (LCP/CLS/INP), a11y, isolamento de render |
 | Mobile | `mobile-resilience` | Offline-first, bateria/CPU, disciplina de main-thread |
 | DevOps | `devops-lean` | SRE/FinOps — enxuto, imutável, consciente de custo |

@@ -40,6 +40,7 @@ do not fabricate a persona.
 | `backend-hyperf` | PHP on Hyperf/Swoole (coroutine runtime) | `composer.json` with `hyperf/*` or `ext-swoole`; `config/autoload/server.php` |
 | `backend-laravel` | PHP on Laravel | `composer.json` with `laravel/framework`; `artisan` file |
 | `backend-rails` | Ruby on Rails | `Gemfile` with `rails`; `config/application.rb`, `bin/rails` |
+| `backend-node` | Server-side Node.js (JS/TS) — Express/Fastify/Koa/NestJS/Hapi or a raw HTTP server | `package.json` with `express`/`fastify`/`koa`/`@nestjs/*`/`hapi`, or a server entrypoint; **not** a browser UI app |
 | `frontend-performance` | Browser front-end (React/Next/Vue/Svelte/vanilla) where UX & Web Vitals matter | `package.json` with `react`/`next`/`vue`/`svelte`/`vite`; `*.tsx`, `*.jsx`, `*.vue` |
 | `mobile-resilience` | Native or cross-platform mobile | `pubspec.yaml` (Flutter); `android/` + `ios/`; `react-native` in `package.json`; `*.swift`, `*.kt` |
 | `devops-lean` | Infra, deployment, cost, or reliability work | `Dockerfile`, `docker-compose.yml`, `*.service`, `nginx.conf`, `.github/workflows/`, Terraform/Ansible — **or** the task is about deploy/cost/uptime |
@@ -90,6 +91,7 @@ These override generic model defaults and are non-negotiable across all skills:
 | Backend | [`backend-hyperf`](skills/backend-hyperf/SKILL.md) | Coroutine-safe PHP/Swoole — pooling, statelessness |
 | Backend | [`backend-laravel`](skills/backend-laravel/SKILL.md) | Idiomatic Laravel — no legacy/Lumen, cache-first |
 | Backend | [`backend-rails`](skills/backend-rails/SKILL.md) | The Rails Way — MVC, Sidekiq, cache |
+| Backend | [`backend-node`](skills/backend-node/SKILL.md) | Node.js APIs — event-loop discipline, streams, async safety, graceful shutdown |
 | Frontend | [`frontend-performance`](skills/frontend-performance/SKILL.md) | Web Vitals, a11y, render isolation |
 | Mobile | [`mobile-resilience`](skills/mobile-resilience/SKILL.md) | Offline-first, battery/CPU, main-thread discipline |
 | DevOps | [`devops-lean`](skills/devops-lean/SKILL.md) | SRE/FinOps — lean, immutable, cost-aware |
