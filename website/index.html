@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff+ Skills | Eleve sua IA a um Engenheiro Sênior</title>
+    <meta name="description" content="Transforme sua IA em um Revisor Arquitetural Incisivo. Detecção automática de stack, regras avançadas e posturas desafiadoras para Claude, Cursor, Windsurf e Antigravity.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-bg glow-1"></div>
+    <div class="glow-bg glow-2"></div>
+    
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">Staff+ <span>Skills</span></div>
+            <a href="#how-it-works" class="nav-link">Como Funciona</a>
+            <a href="#features" class="nav-link">Filosofia</a>
+            <a href="#supported" class="nav-link">Compatibilidade</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <div class="badge">🚀 O fim dos prompts genéricos</div>
+            <h1 class="hero-title">Eleve sua IA a um<br><span class="text-gradient">Staff+ Engineer</span></h1>
+            <p class="hero-subtitle">Abandone o "assistente obediente". O Staff+ Skills transforma sua IA em um par arquitetural rigoroso, que desafia decisões rasas e aplica os padrões mais profundos de cada stack automaticamente.</p>
+            <div class="hero-actions">
+                <a href="#features" class="btn btn-primary">Descubra a Filosofia</a>
+                <a href="#how-it-works" class="btn btn-secondary">Veja o Ecossistema</a>
+            </div>
+            
+            <div class="hero-terminal">
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="terminal-title">~/project/install.sh</span>
+                </div>
+                <div class="terminal-body">
+                    <pre><code><span class="command">$ ./install.sh</span>
+<span class="output">Staff+ Skills installer
+  pack : ./staff-plus-skills
+  repo : /usr/src/app (pack is at: .)
+  skills: backend-fastapi backend-django devops-lean ...
+
+✓ wrote /usr/src/app/AGENTS.md (universal router)
+✓ wrote /usr/src/app/.cursor/rules/staff-plus.mdc
+✓ wrote /usr/src/app/.windsurfrules
+✓ copied 12 skills into /usr/src/app/.claude/skills/
+
+↳ Antigravity reads /usr/src/app/AGENTS.md natively</span></code></pre>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features section">
+        <div class="container">
+            <div class="section-header">
+                <h2>O Paradigma <span class="text-gradient">Staff+</span></h2>
+                <p>Nós desenhamos regras que a maioria dos desenvolvedores ignora. Caching, transações, concorrência e vazamentos de memória.</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="feature-card reveal">
+                    <div class="icon-box">🛡️</div>
+                    <h3>Desafiar > Obedecer</h3>
+                    <p>A IA é treinada com <strong>Challenge Triggers</strong>. Se você propuser N+1 queries ou I/O bloqueante, ela é forçada a recusar e propor a solução arquitetural correta.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay: 100ms;">
+                    <div class="icon-box">🏷️</div>
+                    <h3>Evidence Tags</h3>
+                    <p>O fim da "caixa preta". A IA usa tags como <code>[FACT]</code>, <code>[CACHE_MISS]</code> e <code>[RACE_CONDITION]</code> para documentar e provar o seu raciocínio antes de cuspir código.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay: 200ms;">
+                    <div class="icon-box">⚡</div>
+                    <h3>Cross-cutting Skills</h3>
+                    <p>Carregamento simultâneo e dinâmico. Você programa em Laravel, mas se a intenção for otimizar o CI/CD, a skill <code>devops-lean</code> é ativada em paralelo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="comparison section">
+        <div class="container">
+            <div class="section-header">
+                <h2>O abismo de <span class="text-gradient">diferença</span></h2>
+                <p>Veja como uma IA genérica reage versus uma IA com o Staff+ Skills embarcado.</p>
+            </div>
+            
+            <div class="compare-grid">
+                <div class="compare-card bad reveal">
+                    <div class="compare-title">❌ Sem Staff+ Skills</div>
+                    <div class="compare-content">
+                        <p class="user-msg">"Crie uma rota para atualizar o status do pedido."</p>
+                        <p class="ai-msg bad">"Claro! Aqui está: <br><br><code>order = Order.objects.get(pk=1)</code><br><code>order.status = 'PAID'</code><br><code>order.save()</code><br><br>Espero ter ajudado!"</p>
+                    </div>
+                </div>
+                
+                <div class="compare-card good reveal">
+                    <div class="compare-title">✅ Com Staff+ Skills</div>
+                    <div class="compare-content">
+                        <p class="user-msg">"Crie uma rota para atualizar o status do pedido."</p>
+                        <p class="ai-msg good">"<code>[RACE_CONDITION]</code> Evite usar <code>.save()</code> vazio aqui. Se outra request alterar o valor da compra no meio segundo entre o <code>get()</code> e o <code>save()</code>, seus dados serão sobrescritos acidentalmente. <br><br><strong>Use <code>update_fields=['status']</code></strong>."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="supported" class="ecosystem section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Ecossistema <span class="text-gradient">Universal</span></h2>
+                <p>Uma instalação de 30 segundos. Compatível com as IDEs e Agentes mais avançados do planeta.</p>
+            </div>
+            
+            <div class="logos-grid reveal">
+                <div class="logo-item">Claude Code</div>
+                <div class="logo-item">Cursor</div>
+                <div class="logo-item">Windsurf</div>
+                <div class="logo-item">Antigravity</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">Staff+ <span>Skills</span></div>
+                <p>O pacote definitivo de inteligência arquitetural para IAs codificadoras.</p>
+                <div class="footer-links">
+                    <a href="#">Documentação</a>
+                    <a href="#">Termos de Licença</a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2026 Staff+ Skills. Todos os direitos reservados. Licença Proprietária.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
