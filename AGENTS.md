@@ -37,6 +37,8 @@ do not fabricate a persona.
 | Skill id | Load when you detect… | Primary signal files |
 |---|---|---|
 | `backend-fastapi` | Python web/API using FastAPI or Starlette | `pyproject.toml`/`requirements.txt` containing `fastapi`; `app = FastAPI(...)` |
+| `backend-flask` | Python web/API using Flask | `pyproject.toml`/`requirements.txt` containing `flask`; `app = Flask(...)` |
+| `backend-django` | Python full-stack/API using Django | `requirements.txt` containing `django`; `manage.py`, `settings.py` |
 | `backend-hyperf` | PHP on Hyperf/Swoole (coroutine runtime) | `composer.json` with `hyperf/*` or `ext-swoole`; `config/autoload/server.php` |
 | `backend-laravel` | PHP on Laravel | `composer.json` with `laravel/framework`; `artisan` file |
 | `backend-rails` | Ruby on Rails | `Gemfile` with `rails`; `config/application.rb`, `bin/rails` |
@@ -88,6 +90,8 @@ These override generic model defaults and are non-negotiable across all skills:
 | Domain | Skill | One-line focus |
 |---|---|---|
 | Backend | [`backend-fastapi`](skills/backend-fastapi/SKILL.md) | Async Python APIs — Pydantic, DI, cache, structured logs |
+| Backend | [`backend-flask`](skills/backend-flask/SKILL.md) | Python Micro-services — Application Factory, Blueprints, Explicit Context |
+| Backend | [`backend-django`](skills/backend-django/SKILL.md) | The Django Way — ORM perf (select_related), Fat Models, DRF |
 | Backend | [`backend-hyperf`](skills/backend-hyperf/SKILL.md) | Coroutine-safe PHP/Swoole — pooling, statelessness |
 | Backend | [`backend-laravel`](skills/backend-laravel/SKILL.md) | Idiomatic Laravel — no legacy/Lumen, cache-first |
 | Backend | [`backend-rails`](skills/backend-rails/SKILL.md) | The Rails Way — MVC, Sidekiq, cache |

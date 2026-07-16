@@ -38,7 +38,7 @@ if [ "${1:-}" = "--list" ]; then
   echo "  - $ROOT/.cursor/rules/staff-plus.mdc  (Cursor)"
   echo "  - $ROOT/.windsurfrules                (Windsurf)"
   echo "  - $ROOT/.claude/skills/<id>/          (Claude Code, native skills)"
-  echo "  - $ROOT/GEMINI.md                     (Antigravity; it also reads AGENTS.md natively)"
+  echo "  - $ROOT/AGENTS.md                     (Antigravity reads it natively)"
   exit 0
 fi
 
@@ -74,7 +74,7 @@ echo "✓ wrote $ROOT/.windsurfrules"
 mkdir -p "$ROOT/.claude/skills"
 for id in "${SKILLS[@]}"; do
   mkdir -p "$ROOT/.claude/skills/$id"
-  cp -f "$PACK_DIR/skills/$id/"* "$ROOT/.claude/skills/$id/" 2>/dev/null || true
+  cp -f "$PACK_DIR/skills/$id/"* "$ROOT/.claude/skills/$id/"
 done
 # Also expose the router as project memory so Claude Code applies the global contract.
 if [ ! -f "$ROOT/CLAUDE.md" ]; then
@@ -86,21 +86,8 @@ fi
 echo "✓ copied ${#SKILLS[@]} skills into $ROOT/.claude/skills/"
 
 # 5) Antigravity (Google) — reads the repo-root AGENTS.md natively (v1.20.3+), so the
-#    router already applies. GEMINI.md is its highest-priority project file; point it at
-#    the router (create only if missing, never clobber the user's Antigravity rules).
-if [ ! -f "$ROOT/GEMINI.md" ]; then
-  {
-    echo "# Antigravity project instructions"
-    echo
-    echo "Follow the Staff+ Skills router in AGENTS.md: detect the project's stack and load"
-    echo "the matching skill(s) from ${REL%/}/skills/<id>/SKILL.md, then apply the Global"
-    echo "Contract. AGENTS.md is the single source of truth for routing."
-  } > "$ROOT/GEMINI.md"
-  echo "✓ wrote $ROOT/GEMINI.md (Antigravity → points at the router)"
-else
-  echo "! $ROOT/GEMINI.md exists — add a line pointing to AGENTS.md for Antigravity."
-fi
-echo "  ↳ Antigravity also reads $ROOT/AGENTS.md natively — already wired in step 1."
+#    router already applies.
+echo "  ↳ Antigravity reads $ROOT/AGENTS.md natively — already wired in step 1."
 
 echo
 echo "Done. Reload your editor/agent so it picks up the new rules."
