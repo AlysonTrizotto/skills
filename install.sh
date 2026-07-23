@@ -46,10 +46,10 @@ if [ "${1:-}" = "--git-hook" ]; then
     exit 1
   fi
   mkdir -p "$ROOT/.git/hooks"
-  cat << 'EOF' > "$HOOK_PATH"
+  cat << EOF > "$HOOK_PATH"
 #!/usr/bin/env bash
 echo "🔍 Running Staff+ Skills pre-commit validation..."
-python3 scripts/validate_skills.py
+python3 "${REL}/scripts/validate_skills.py"
 EOF
   chmod +x "$HOOK_PATH"
   echo "✓ Installed pre-commit hook at $HOOK_PATH"
