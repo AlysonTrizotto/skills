@@ -7,6 +7,8 @@
 #
 #   Usage:  ./install.sh            # install / update for all detected tools
 #           ./install.sh --update   # explicitly sync and prune old skills
+#           ./install.sh --verify   # validate skill schema & router registration
+#           ./install.sh --git-hook # install pre-commit validation hook
 #           ./install.sh --list     # show what would be wired/updated
 # ─────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
@@ -27,6 +29,27 @@ SKILLS=()
 for d in "$PACK_DIR"/skills/*/; do
   [ -f "${d}SKILL.md" ] && SKILLS+=("$(basename "$d")")
 done
+
+if [ "${1:-}" = "--verify" ]; then
+  exec python3 "$PACK_DIR/scripts/validate_skills.py"
+fi
+
+if [ "${1:-}" = "--git-hook" ]; then
+  HOOK_PATH="$ROOT/.git/hooks/pre-commit"
+  if [ ! -d "$ROOT/.git" ]; then
+    echo "Error: $ROOT is not a git repository root."
+    exit 1
+  fi
+  mkdir -p "$ROOT/.git/hooks"
+  cat << 'EOF' > "$HOOK_PATH"
+#!/usr/bin/env bash
+echo "🔍 Running Staff+ Skills pre-commit validation..."
+python3 scripts/validate_skills.py
+EOF
+  chmod +x "$HOOK_PATH"
+  echo "✓ Installed pre-commit hook at $HOOK_PATH"
+  exit 0
+fi
 
 IS_UPDATE=false
 if [ "${1:-}" = "--update" ]; then

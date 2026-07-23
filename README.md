@@ -83,14 +83,16 @@ Se você é novo aqui, recomendamos esta ordem de leitura:
 
 ---
 
-## 🚀 Instalação (30 segundos)
+## 🚀 Instalação e Comandos CLI
 
-**Opção A — Automática (recomendada).** Copie a pasta do pacote para a raiz do seu repositório e rode o instalador:
+**Instalação Automática:**
 
 ```bash
-cp -r staff-plus-skills/ /caminho/do/seu/repo/
-cd /caminho/do/seu/repo
-./staff-plus-skills/install.sh
+./install.sh            # Instala / Atualiza todas as regras e skills nas IDEs
+./install.sh --update   # Sincroniza regras e limpa skills órfãs (.claude/skills/)
+./install.sh --verify   # Valida esquemas YAML, seções obrigatórias e roteador AGENTS.md
+./install.sh --git-hook # Instala o hook de pre-commit para validação automática
+./install.sh --list     # Exibe o dry-run do que será instalado/atualizado
 ```
 
 O instalador gera as ligações nativas sem sobrescrever seus arquivos vitais:
