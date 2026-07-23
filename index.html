@@ -45,18 +45,19 @@
                     <span class="terminal-title">~/project/install.sh</span>
                 </div>
                 <div class="terminal-body">
-                    <pre><code><span class="command">$ ./install.sh</span>
-<span class="output">Staff+ Skills installer
+                    <pre><code><span class="command">$ ./install.sh --update</span>
+<span class="output">Staff+ Skills installer & updater
   pack : ./staff-plus-skills
   repo : /usr/src/app (pack is at: .)
-  skills: backend-fastapi backend-django devops-lean ...
+  skills: 16 active skills (architecture, engineering, code-reviews, backends...)
 
 ✓ wrote /usr/src/app/AGENTS.md (universal router)
 ✓ wrote /usr/src/app/.cursor/rules/staff-plus.mdc
 ✓ wrote /usr/src/app/.windsurfrules
-✓ copied 12 skills into /usr/src/app/.claude/skills/
+✓ synced 16 skills into /usr/src/app/.claude/skills/
+✓ verified schema & router registration (Self-Correction Protocol active)
 
-↳ Antigravity reads /usr/src/app/AGENTS.md natively</span></code></pre>
+↳ Antigravity & Claude Code read /usr/src/app/AGENTS.md natively</span></code></pre>
                 </div>
             </div>
         </div>
@@ -73,7 +74,7 @@
                 <div class="compare-card bad reveal">
                     <div class="compare-title">❌ Sem Staff+ Skills</div>
                     <div class="compare-content">
-                        <p class="user-msg">"Crie uma rota para atualizar o status do pedido."</p>
+                        <p class="user-msg">"Crie um endpoint para processar o pagamento do pedido."</p>
                         <p class="ai-msg bad">"Claro! Aqui está: <br><br><code>order = Order.objects.get(pk=1)</code><br><code>order.status = 'PAID'</code><br><code>order.save()</code><br><br>Espero ter ajudado!"</p>
                     </div>
                 </div>
@@ -81,8 +82,8 @@
                 <div class="compare-card good reveal">
                     <div class="compare-title">✅ Com Staff+ Skills</div>
                     <div class="compare-content">
-                        <p class="user-msg">"Crie uma rota para atualizar o status do pedido."</p>
-                        <p class="ai-msg good">"<code>[RACE_CONDITION]</code> Evite usar <code>.save()</code> vazio aqui. Se outra request alterar o valor da compra no meio segundo entre o <code>get()</code> e o <code>save()</code>, seus dados serão sobrescritos acidentalmente. <br><br><strong>Use <code>update_fields=['status']</code></strong>."</p>
+                        <p class="user-msg">"Crie um endpoint para processar o pagamento do pedido."</p>
+                        <p class="ai-msg good">"<code>[IDEMPOTENCY_VIOLATION]</code> Retentativas de rede ou cliques duplos vão duplicar cobranças. <br><br>Exija o cabeçalho <code>Idempotency-Key</code>, use uma trava atômica no Redis (<code>SET NX EX</code>) e <code>update_fields=['status']</code> para evitar race conditions."</p>
                     </div>
                 </div>
             </div>
@@ -92,25 +93,25 @@
     <section id="features" class="features section">
         <div class="container">
             <div class="section-header">
-                <h2>O Paradigma <span class="text-gradient">Staff+</span></h2>
-                <p>Nós desenhamos regras que a maioria dos desenvolvedores ignora. Caching, transações, concorrência e vazamentos de memória.</p>
+                <h2>O Paradigma <span class="text-gradient">Staff+ (16 Skills)</span></h2>
+                <p>Nós desenhamos regras que a maioria dos desenvolvedores ignora. Caching, transações atômicas, idempotência, observabilidade e isolamento de render.</p>
             </div>
             
             <div class="grid-3">
                 <div class="feature-card reveal">
                     <div class="icon-box">🛡️</div>
                     <h3>Desafiar > Obedecer</h3>
-                    <p>A IA é treinada com <strong>Challenge Triggers</strong>. Se você propuser N+1 queries ou I/O bloqueante, ela é forçada a recusar e propor a solução arquitetural correta.</p>
+                    <p>A IA é treinada com <strong>Challenge Triggers</strong>. Se você propuser N+1 queries, I/O bloqueante ou chamadas não-idempotentes, ela recusa e propõe a solução arquitetural correta.</p>
                 </div>
                 <div class="feature-card reveal" style="transition-delay: 100ms;">
                     <div class="icon-box">🏷️</div>
-                    <h3>Evidence Tags</h3>
-                    <p>O fim da "caixa preta". A IA usa tags como <code>[FACT]</code>, <code>[CACHE_MISS]</code> e <code>[RACE_CONDITION]</code> para documentar e provar o seu raciocínio antes de cuspir código.</p>
+                    <h3>Protocolo de Auto-Correção</h3>
+                    <p>Antes de entregar a resposta, a IA valida silenciosamente o código contra as checklists de PR da skill ativa (ex: OpenTelemetry, idempotência e zero N+1).</p>
                 </div>
                 <div class="feature-card reveal" style="transition-delay: 200ms;">
                     <div class="icon-box">⚡</div>
-                    <h3>Cross-cutting Skills</h3>
-                    <p>Carregamento simultâneo e dinâmico. Você programa em Laravel, mas se a intenção for otimizar o CI/CD, a skill <code>devops-lean</code> é ativada em paralelo.</p>
+                    <h3>16 Skills Transversais</h3>
+                    <p>Modos dinâmicos para <strong>Arquitetura (DDD/Outbox)</strong>, <strong>Engenharia (SOLID/OTel)</strong> e <strong>Code Review</strong> (Backend, Frontend e Mobile) ativados por intenção.</p>
                 </div>
             </div>
         </div>

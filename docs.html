@@ -33,24 +33,28 @@
     </div>
 
     <div class="container page-content">
-        <h2>Instalação Universal (30 segundos)</h2>
-        <p>A forma mais rápida de injetar a inteligência no seu projeto é utilizando o nosso script instalador. Copie a pasta <code>staff-plus-skills</code> para a raiz do seu repositório e rode:</p>
-        <pre><code>cp -r staff-plus-skills/ /caminho/do/seu/repo/
-cd /caminho/do/seu/repo
-./staff-plus-skills/install.sh</code></pre>
+        <h2>Instalação e Comandos CLI</h2>
+        <p>Copie a pasta <code>staff-plus-skills</code> para a raiz do seu repositório e utilize os comandos abaixo:</p>
+        <pre><code>./install.sh            # Instala / Atualiza todas as regras nas IDEs
+./install.sh --update   # Sincroniza regras e limpa skills órfãs (.claude/skills/)
+./install.sh --verify   # Valida esquemas YAML, seções e o roteador AGENTS.md
+./install.sh --git-hook # Instala hook pre-commit para validação automática
+./install.sh --package  # Gera o pacote comercial zip para distribuição</code></pre>
         
-        <h2>O Router: <code>AGENTS.md</code></h2>
-        <p>Ao rodar a instalação, o arquivo <strong>AGENTS.md</strong> será depositado na raiz do seu repositório. Ele é o coração do sistema. Diferente de regras engessadas, ele detecta manifestos como <code>package.json</code> ou <code>pyproject.toml</code> para carregar a skill apropriada magicamente.</p>
+        <h2>O Router: <code>AGENTS.md</code> e o Protocolo de Auto-Correção</h2>
+        <p>Ao rodar a instalação, o arquivo <strong>AGENTS.md</strong> é depositado na raiz do repositório como o roteador universal. Ele injeta o <strong>Self-Correction Protocol</strong>, forçando o agente de IA a validar silenciosamente todo diff de código contra a <em>Review Checklist</em> da skill ativa antes de exibir a solução final.</p>
         
-        <h2>Skills Inclusas no Pacote</h2>
-        <p>O pacote base acompanha personas focadas nos ecossistemas mais populares e desafios arquiteturais avançados:</p>
+        <h2>Catálogo de 16 Skills Inclusas</h2>
+        <p>O pacote inclui 16 personas especialistas em backends, frontends, mobile, DevOps, QA, arquitetura e engenharia:</p>
         <ul>
-            <li><strong>backend-django:</strong> Otimização de ORM, proteção contra vazamento em serializers DRF.</li>
-            <li><strong>backend-flask:</strong> Isolamento de dependências via Application Factory.</li>
-            <li><strong>backend-fastapi:</strong> Injeção de dependências e validação estrita com Pydantic na borda.</li>
-            <li><strong>backend-node:</strong> Disciplina no Event Loop, proteção contra travamentos síncronos e Memory Leaks.</li>
-            <li><strong>backend-laravel:</strong> Uso idiomático de coleções e padronização arquitetural cache-first.</li>
-            <li><strong>devops-lean & qa-api-destroyer:</strong> Skills transversais que ativam por <em>intenção</em> da tarefa, blindando CI/CD e testes agressivos.</li>
+            <li><strong>architecture-staff:</strong> Arquitetura de Sistemas, DDD, Event-Driven Architecture, Outbox Pattern e ADRs.</li>
+            <li><strong>engineering-excellence:</strong> Software Craftsmanship, SOLID, observabilidade com OpenTelemetry e migrações zero-downtime.</li>
+            <li><strong>code-review-backend:</strong> Review rigoroso de backend (N+1, SQL perf, Idempotência, concorrência).</li>
+            <li><strong>code-review-frontend:</strong> Review de Web Vitals (LCP/CLS/INP), isolamento de re-renders e acessibilidade WCAG AA.</li>
+            <li><strong>code-review-mobile:</strong> Review de UI thread jank, memory leaks nativos, consumo de bateria e sync offline.</li>
+            <li><strong>backend-node:</strong> Event loop, streams, async safety e graceful shutdown.</li>
+            <li><strong>backend-fastapi / backend-django / backend-flask / backend-laravel / backend-hyperf / backend-rails:</strong> Regras profundas para cada ecossistema.</li>
+            <li><strong>devops-lean & qa-api-destroyer:</strong> SRE, infra imutável, idempotência e testes adversariais agressivos.</li>
         </ul>
 
         <h2>Compatibilidade</h2>
