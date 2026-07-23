@@ -32,6 +32,7 @@ staff-plus-skills/
 ├─ install.sh            ← Instala os adaptadores nativos por plataforma
 ├─ skills/
 │  ├─ _TEMPLATE.md         Base para criar novas skills Staff+
+│  ├─ architecture-staff/SKILL.md
 │  ├─ backend-django/SKILL.md
 │  ├─ backend-fastapi/SKILL.md
 │  ├─ backend-flask/SKILL.md
@@ -43,6 +44,7 @@ staff-plus-skills/
 │  ├─ code-review-frontend/SKILL.md
 │  ├─ code-review-mobile/SKILL.md
 │  ├─ devops-lean/SKILL.md
+│  ├─ engineering-excellence/SKILL.md
 │  ├─ frontend-performance/SKILL.md
 │  ├─ mobile-resilience/SKILL.md
 │  └─ qa-api-destroyer/SKILL.md
@@ -67,6 +69,8 @@ staff-plus-skills/
 | Review | `code-review-backend` | Code Review Backend — N+1, SQL perf, concorrência, contratos de API |
 | Review | `code-review-frontend` | Code Review Web Frontend — Web Vitals, re-renders, DOM perf, a11y, bundle bloat |
 | Review | `code-review-mobile` | Code Review Mobile — UI main-thread jank, native memory leaks, bateria, offline sync |
+| Architecture | `architecture-staff` | Arquitetura de Sistemas — DDD, Event-Driven, Outbox pattern, escolha de DB, ADRs |
+| Engineering | `engineering-excellence` | Engenharia & Craftsmanship — SOLID, OpenTelemetry, refatoração, deploys zero-downtime |
 
 ---
 

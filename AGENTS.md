@@ -50,11 +50,13 @@ do not fabricate a persona.
 | `code-review-backend` | Rigorous, security-first backend code review | PR / diff review intent on backend code, database queries, ORM migrations, API contracts |
 | `code-review-frontend` | Web Vitals, re-renders, DOM performance, a11y, and bundle-size code review | PR / diff review intent on Web (React/Vue/Next/Svelte/Angular) code |
 | `code-review-mobile` | Mobile UI main-thread, native memory leaks, battery, and offline sync review | PR / diff review intent on Mobile (React Native/Flutter/iOS/Android) code |
+| `architecture-staff` | System design, domain boundaries, DB strategy, event-driven pipelines, ADRs | Intent around system architecture, microservices vs monolith, EDA, CAP trade-offs, ADRs |
+| `engineering-excellence` | SOLID, refactoring, OpenTelemetry observability, tech debt, zero-downtime CI/CD | Intent around refactoring, observability/tracing, SOLID/DRY, feature flags, zero-downtime DB migrations |
 
 ### Cross-cutting rule
-- `devops-lean`, `qa-api-destroyer`, `code-review-backend`, `code-review-frontend`, and `code-review-mobile` describe a *mode of work*, not just a stack. Activate
+- `devops-lean`, `qa-api-destroyer`, `code-review-backend`, `code-review-frontend`, `code-review-mobile`, `architecture-staff`, and `engineering-excellence` describe a *mode of work*, not just a stack. Activate
   them **by task intent**: "load test this", "harden this endpoint", "review this backend PR",
-  "audit web re-renders", "review mobile app diff" → load them alongside whatever stack skill is active.
+  "audit web re-renders", "design system architecture", "refactor with SOLID" → load them alongside whatever stack skill is active.
 
 ---
 
@@ -77,6 +79,7 @@ These override generic model defaults and are non-negotiable across all skills:
   by default. Readability > cleverness.
 - **Respect existing conventions.** Match the repository's style, structure, and idioms
   before importing your own.
+- **Self-Correction Protocol.** Before delivering final code or architecture diffs, verify your output against the active skill's Review Checklist during thought generation. Correct violations inline before outputting.
 
 ### Precedence when skills conflict
 1. **Security** (`qa-api-destroyer`, security notes in any skill) wins over convenience.
@@ -106,6 +109,8 @@ These override generic model defaults and are non-negotiable across all skills:
 | Review | [`code-review-backend`](skills/code-review-backend/SKILL.md) | Backend PR review — N+1, SQL perf, concurrency, zero-breaking-change APIs |
 | Review | [`code-review-frontend`](skills/code-review-frontend/SKILL.md) | Web Frontend PR review — Web Vitals, re-renders, DOM perf, a11y, bundle bloat |
 | Review | [`code-review-mobile`](skills/code-review-mobile/SKILL.md) | Mobile PR review — UI main-thread jank, native memory leaks, battery, offline sync |
+| Architecture | [`architecture-staff`](skills/architecture-staff/SKILL.md) | System design — DDD boundaries, EDA, Transactional Outbox, DB selection, ADRs |
+| Engineering | [`engineering-excellence`](skills/engineering-excellence/SKILL.md) | Software Craftsmanship — SOLID, OpenTelemetry, refactoring, zero-downtime DB migrations |
 
 > Extending the pack? Copy [`skills/_TEMPLATE.md`](skills/_TEMPLATE.md), add a row to the
 > activation matrix above, and drop it in `skills/<your-skill-id>/SKILL.md`.
