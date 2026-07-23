@@ -91,6 +91,7 @@ Se você é novo aqui, recomendamos esta ordem de leitura:
 ./install.sh            # Instala / Atualiza todas as regras e skills nas IDEs
 ./install.sh --update   # Sincroniza regras e limpa skills órfãs (.claude/skills/)
 ./install.sh --verify   # Valida esquemas YAML, seções obrigatórias e roteador AGENTS.md
+./install.sh --package  # Empacota o zip limpo (dist/staff-plus-skills.zip) para venda
 ./install.sh --git-hook # Instala o hook de pre-commit para validação automática
 ./install.sh --list     # Exibe o dry-run do que será instalado/atualizado
 ```

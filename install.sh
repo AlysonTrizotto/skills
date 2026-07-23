@@ -8,6 +8,7 @@
 #   Usage:  ./install.sh            # install / update for all detected tools
 #           ./install.sh --update   # explicitly sync and prune old skills
 #           ./install.sh --verify   # validate skill schema & router registration
+#           ./install.sh --package  # bundle release zip for distribution
 #           ./install.sh --git-hook # install pre-commit validation hook
 #           ./install.sh --list     # show what would be wired/updated
 # ─────────────────────────────────────────────────────────────────────────────
@@ -32,6 +33,10 @@ done
 
 if [ "${1:-}" = "--verify" ]; then
   exec python3 "$PACK_DIR/scripts/validate_skills.py"
+fi
+
+if [ "${1:-}" = "--package" ]; then
+  exec bash "$PACK_DIR/scripts/package.sh"
 fi
 
 if [ "${1:-}" = "--git-hook" ]; then
