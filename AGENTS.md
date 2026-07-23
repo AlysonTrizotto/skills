@@ -106,7 +106,7 @@ These override generic model defaults and are non-negotiable across all skills:
 | Mobile | [`mobile-resilience`](skills/mobile-resilience/SKILL.md) | Offline-first, battery/CPU, main-thread discipline |
 | DevOps | [`devops-lean`](skills/devops-lean/SKILL.md) | SRE/FinOps — lean, immutable, cost-aware |
 | QA | [`qa-api-destroyer`](skills/qa-api-destroyer/SKILL.md) | Adversarial testing, load, edge cases, exploits |
-| Review | [`code-review-backend`](skills/code-review-backend/SKILL.md) | Backend PR review — N+1, SQL perf, concurrency, zero-breaking-change APIs |
+| Review | [`code-review-backend`](skills/code-review-backend/SKILL.md) | Backend PR review — N+1, SQL perf, idempotency, concurrency, zero-breaking-change APIs |
 | Review | [`code-review-frontend`](skills/code-review-frontend/SKILL.md) | Web Frontend PR review — Web Vitals, re-renders, DOM perf, a11y, bundle bloat |
 | Review | [`code-review-mobile`](skills/code-review-mobile/SKILL.md) | Mobile PR review — UI main-thread jank, native memory leaks, battery, offline sync |
 | Architecture | [`architecture-staff`](skills/architecture-staff/SKILL.md) | System design — DDD boundaries, EDA, Transactional Outbox, DB selection, ADRs |

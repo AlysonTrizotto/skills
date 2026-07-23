@@ -65,8 +65,8 @@ staff-plus-skills/
 | Frontend | `frontend-performance` | Web Vitals (LCP/CLS/INP), a11y, isolamento de render |
 | Mobile | `mobile-resilience` | Offline-first, bateria/CPU, disciplina de main-thread |
 | DevOps | `devops-lean` | SRE/FinOps — enxuto, imutável, consciente de custo |
-| QA | `qa-api-destroyer` | Testes adversariais, carga, edge cases (do seu próprio serviço) |
-| Review | `code-review-backend` | Code Review Backend — N+1, SQL perf, concorrência, contratos de API |
+| QA | `qa-api-destroyer` | Testes adversariais, carga, idempotência, edge cases (do seu próprio serviço) |
+| Review | `code-review-backend` | Code Review Backend — N+1, SQL perf, idempotência, concorrência, contratos de API |
 | Review | `code-review-frontend` | Code Review Web Frontend — Web Vitals, re-renders, DOM perf, a11y, bundle bloat |
 | Review | `code-review-mobile` | Code Review Mobile — UI main-thread jank, native memory leaks, bateria, offline sync |
 | Architecture | `architecture-staff` | Arquitetura de Sistemas — DDD, Event-Driven, Outbox pattern, escolha de DB, ADRs |

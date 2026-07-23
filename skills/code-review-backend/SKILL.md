@@ -9,12 +9,12 @@ description: >-
 domain: backend
 stack: Language-agnostic backend (Node/Python/PHP/Ruby/Go/Java)
 globs: ["**/*.py", "**/*.js", "**/*.ts", "**/*.php", "**/*.rb", "**/*.go", "**/*.sql"]
-tags: ["N+1", "RACE_CONDITION", "SECURITY_FLAW", "BREAKING_CHANGE", "LEAK"]
+tags: ["N+1", "RACE_CONDITION", "IDEMPOTENCY_VIOLATION", "SECURITY_FLAW", "BREAKING_CHANGE", "LEAK"]
 ---
 
 # Backend Code Review · Staff+ Skill
 
-> Act as a Staff Backend Architect peer doing **rigorous, security-first, high-throughput code reviews**. Maintainability, data integrity, SQL optimization, and non-breaking API evolution > superficial formatting nitpicks.
+> Act as a Staff Backend Architect peer doing **rigorous, security-first, high-throughput code reviews**. Maintainability, data integrity, idempotency, SQL optimization, and non-breaking API evolution > superficial formatting nitpicks.
 
 ## When this activates
 - Task intent is **backend code review, PR audit, or diff inspection**: "review this backend PR", "check my API endpoint diff", "audit database migration", "review security/auth changes".
@@ -23,6 +23,7 @@ tags: ["N+1", "RACE_CONDITION", "SECURITY_FLAW", "BREAKING_CHANGE", "LEAK"]
 
 ## Challenge triggers — push back when you see…
 - **SQL queries inside loops (N+1 hazard)** → block the PR until eager loading (`select_related`, `with`, `includes`) or batched queries are used (`[N+1]`).
+- **Non-idempotent POST/PUT handlers or event consumers** → state-changing endpoints (payments, orders, subscriptions) or async queue consumers lacking idempotency keys or unique DB constraints (`[IDEMPOTENCY_VIOLATION]`).
 - **Unbounded database queries without pagination or `LIMIT`** → any query returning list data without max boundaries is a production OOM vector (`[LEAK]`).
 - **Database mutations outside atomic transactions** → multi-table writes without explicit transaction isolation leave orphan states on partial failures.
 - **Breaking API contract changes without versioning or deprecation window** → dropping fields, changing payload types, or altering HTTP status codes breaks downstream consumers (`[BREAKING_CHANGE]`).
@@ -31,7 +32,7 @@ tags: ["N+1", "RACE_CONDITION", "SECURITY_FLAW", "BREAKING_CHANGE", "LEAK"]
 
 ## Rules (DO) — with rationale
 1. **Audit queries before business logic.** 80% of backend outages stem from inefficient queries. Enforce eager loading, index usage on filter/join columns, and strict result limits (`[N+1]`).
-2. **Enforce transaction boundaries and idempotency.** Wrap multi-step mutations in database transactions. Every non-GET endpoint handling state changes or payments must support idempotency keys (`[RACE_CONDITION]`).
+2. **Enforce transaction boundaries and idempotency.** Wrap multi-step mutations in database transactions. Every non-GET endpoint handling state changes or payments MUST process `Idempotency-Key` headers. Event consumers MUST handle duplicate messages cleanly (`[IDEMPOTENCY_VIOLATION]`).
 3. **Verify defense-in-depth security.** Never trust client inputs or JWT payloads blindly. Assert role-based access control (RBAC/ABAC) on every endpoint. Neutralize SQL, command, and path injection hazards (`[SECURITY_FLAW]`).
 4. **Preserve API backwards compatibility.** Adding optional fields is safe; renaming or removing response keys, changing field types, or requiring new headers breaks existing clients (`[BREAKING_CHANGE]`).
 5. **Ensure structured, non-sensitive logging & telemetry.** Trace IDs must propagate through requests. Never log secrets, passwords, or PII (Personally Identifiable Information) (`[LEAK]`).
@@ -40,16 +41,59 @@ tags: ["N+1", "RACE_CONDITION", "SECURITY_FLAW", "BREAKING_CHANGE", "LEAK"]
 ## Anti-patterns (DON'T) → fix
 | ❌ Anti-pattern | Why it hurts | ✅ Do instead |
 |---|---|---|
+| Non-idempotent payment POST endpoint | Network retries or double-clicks charge the user multiple times | Store `Idempotency-Key` in Redis/DB with unique lock; return cached response on retry (`[IDEMPOTENCY_VIOLATION]`) |
 | Querying inside `.map()` or `for` loop | Causes N+1 database queries; crashes under production volume | Eager-load relations (`with()`, `select_related()`) or batch fetch (`WHERE IN`) (`[N+1]`) |
 | Unbounded `SELECT * FROM table` | Exhausts server memory when table grows | Enforce pagination (`LIMIT`/`OFFSET` or cursor-based) (`[LEAK]`) |
 | Non-atomic balance/inventory updates | Creates race conditions under concurrent requests | Use DB atomic increments (`SET balance = balance + x`) or row locks (`[RACE_CONDITION]`) |
+| Event consumer assuming exactly-once delivery | Queue retries create duplicate side-effects (emails, billing) | Check processed event ID in DB transaction before handling payload (`[IDEMPOTENCY_VIOLATION]`) |
 | Silent exception suppression (`try { ... } catch {}`) | Hides critical failures; leaves system in indeterminate state | Log structured error with context, rethrow or return typed error response |
 | Hardcoding secrets or inline SQL concatenation | Exposes credentials and SQL injection vulnerabilities | Use environment variables + parameterized/prepared statements (`[SECURITY_FLAW]`) |
 | Modifying existing response field types in API | Instantly breaks mobile apps and integrated 3rd-party services | Add new fields under new names or introduce versioned endpoints (`/v2/`) (`[BREAKING_CHANGE]`) |
 
 ## Worked examples ❌ → ✅
 
-**1 — Database Query & N+1 Prevention**
+**1 — Idempotent API Handler with Redis Lock**
+```typescript
+// ❌ Non-idempotent POST handler: Retrying request duplicates the payment!
+async function handlePayment(req: Request, res: Response) {
+  const { amount, accountId } = req.body;
+  const payment = await paymentGateway.charge(accountId, amount); // [IDEMPOTENCY_VIOLATION]
+  await db.payments.create({ accountId, amount, status: 'COMPLETED' });
+  return res.json(payment);
+}
+
+// ✅ Staff+ Review: Idempotent handler leveraging Idempotency-Key and Redis lock [IDEMPOTENCY_VIOLATION]
+async function handlePayment(req: Request, res: Response) {
+  const idempotencyKey = req.headers['idempotency-key'] as string;
+  if (!idempotencyKey) {
+    return res.status(400).json({ error: 'Idempotency-Key header is required for state-changing requests' });
+  }
+
+  const cachedResult = await redis.get(`idempotency:${idempotencyKey}`);
+  if (cachedResult) {
+    return res.status(200).json(JSON.parse(cachedResult)); // Return cached payload safely
+  }
+
+  // Acquire atomic lock (TTL 10s) to prevent concurrent duplicate execution
+  const acquired = await redis.set(`lock:${idempotencyKey}`, 'LOCKED', 'NX', 'EX', 10);
+  if (!acquired) {
+    return res.status(409).json({ error: 'Concurrent request in progress. Retry shortly.' });
+  }
+
+  try {
+    const payment = await paymentGateway.charge(req.body.accountId, req.body.amount);
+    const responseData = { id: payment.id, status: payment.status };
+    
+    // Store result atomically with TTL (e.g. 24h)
+    await redis.set(`idempotency:${idempotencyKey}`, JSON.stringify(responseData), 'EX', 86400);
+    return res.json(responseData);
+  } finally {
+    await redis.del(`lock:${idempotencyKey}`);
+  }
+}
+```
+
+**2 — Database Query & N+1 Prevention**
 ```typescript
 // ❌ Dangerous N+1: Executes N queries for N orders
 async function getOrdersWithItems(userId: string) {
@@ -76,29 +120,8 @@ async function getOrdersWithItems(userId: string, limit = 20, cursor?: string) {
 }
 ```
 
-**2 — Concurrency & Atomic State Update**
-```python
-# ❌ Race condition: Read-Modify-Write vulnerable to concurrent requests
-def deduct_credits(user_id: str, amount: int):
-    user = db.get_user(user_id)
-    if user.balance >= amount:
-        user.balance -= amount  # [RACE_CONDITION] Concurrent calls read old balance!
-        db.save(user)
-        return True
-    return False
-
-# ✅ Staff+ Review: Atomic DB update with conditional guard
-def deduct_credits(user_id: str, amount: int) -> bool:
-    updated_rows = db.execute(
-        """UPDATE users 
-           SET balance = balance - :amount 
-           WHERE id = :user_id AND balance >= :amount""",
-        {"user_id": user_id, "amount": amount}
-    )
-    return updated_rows > 0
-```
-
 ## Review checklist (PR-ready)
+- [ ] **Idempotency enforced:** Financial and state-changing POST/PUT endpoints support `Idempotency-Key` headers; queue consumers handle duplicate *at-least-once* messages cleanly (`[IDEMPOTENCY_VIOLATION]`).
 - [ ] **No N+1 queries:** All list endpoints use joins, eager loading, or batched queries (`[N+1]`).
 - [ ] **Bounded results:** Every list/search query enforces explicit `LIMIT` and cursor/page bounds (`[LEAK]`).
 - [ ] **Atomic transactions:** Multi-table mutations are wrapped in database transactions (`BEGIN...COMMIT`).
@@ -110,9 +133,10 @@ def deduct_credits(user_id: str, amount: int) -> bool:
 - [ ] **Resilience:** HTTP client calls to external services have explicit timeouts and retry/circuit-breaker logic.
 
 ## Definition of Done
-A backend PR is approved when database queries are verified for execution plan efficiency (indexes + no N+1), data mutations are atomic and concurrency-safe, API contracts remain strictly backwards-compatible or versioned, security validation prevents injection/IDOR, error paths fail gracefully with structured telemetry, and test coverage validates failure modes as well as happy paths.
+A backend PR is approved when database queries are verified for execution plan efficiency (indexes + no N+1), non-GET endpoints and queue consumers strictly enforce idempotency, data mutations are atomic and concurrency-safe, API contracts remain strictly backwards-compatible or versioned, security validation prevents injection/IDOR, error paths fail gracefully with structured telemetry, and test coverage validates failure modes as well as happy paths.
 
 ## Stack-specific gotchas
+- **Missing Unique Indexes for Idempotency Keys:** Storing idempotency keys without a DB `UNIQUE` constraint or Redis `SETNX` lock permits race conditions under parallel requests.
 - **ORM Lazy Loading default:** Frameworks like Django/Hibernate/Sequelize lazy-load relations silently during serialization, causing hidden production N+1 problems.
 - **Node.js Unhandled Rejections:** Uncaught promises in async handlers will crash the node process unless explicitly caught or handled by process-wide safety hooks.
 - **Connection Pool Exhaustion:** Holding DB connections open across long-running HTTP requests or background jobs drains connection pools instantly.
@@ -121,6 +145,7 @@ A backend PR is approved when database queries are verified for execution plan e
 ## Evidence tags
 - `[N+1]` — Query executed inside a loop or missing eager loading.
 - `[RACE_CONDITION]` — Non-atomic read-modify-write state update vulnerable to concurrency.
+- `[IDEMPOTENCY_VIOLATION]` — Non-idempotent POST/PUT endpoint or queue consumer vulnerable to duplicate processing.
 - `[SECURITY_FLAW]` — Unparameterized input, missing auth check, or injection risk.
 - `[BREAKING_CHANGE]` — Backwards-incompatible API contract modification.
 - `[LEAK]` — Memory bloat from unpaginated query, process resource leak, or credential/PII exposure in logs.

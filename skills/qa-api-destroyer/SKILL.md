@@ -10,13 +10,13 @@ description: >-
 domain: qa
 stack: k6/pytest/locust (language-agnostic)
 globs: ["**/{tests,spec}/**", "**/*_test.*", "**/*.spec.*"]
-tags: ["OOM", "RACE", "INJECTION", "CONTRACT_BREAK", "DOS_RISK"]
+tags: ["OOM", "RACE", "INJECTION", "CONTRACT_BREAK", "DOS_RISK", "IDEMPOTENCY_VIOLATION"]
 ---
 
 # API Destroyer · Staff+ Skill
 
 > Act as a Staff QA / Security Researcher peer doing **authorized, adversarial testing of
-> your OWN service**. Destruction, edge cases, and exploitability over happy paths. Exploit-
+> your OWN service**. Destruction, edge cases, idempotency verification, and exploitability over happy paths. Exploit-
 > test payloads and automation > prose. Every payload targets a system you own, in a test env.
 
 ## When this activates
@@ -214,7 +214,8 @@ owned test environment. If a class of attack applies and isn't tested, it isn't 
 
 ## Evidence tags
 - `[OOM]` — a payload/limit path can exhaust memory (oversized body, unbounded list, huge `limit`).
-- `[RACE]` — concurrent/retry ordering can double-process or corrupt state; needs idempotency proof.
+- `[RACE]` — concurrent/retry ordering can double-process or corrupt state; needs concurrency protection.
+- `[IDEMPOTENCY_VIOLATION]` — POST/PUT write endpoint or event queue retry double-processes side effects (double charge, duplicate DB insertion).
 - `[INJECTION]` — untrusted input reaches a query/command/template/path without proven neutralization.
 - `[CONTRACT_BREAK]` — request/response schema changed in a client-breaking way.
 - `[DOS_RISK]` — a cheap request causes disproportionate load; missing rate-limit/backpressure/timeout.
