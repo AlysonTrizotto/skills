@@ -39,6 +39,9 @@ staff-plus-skills/
 │  ├─ backend-laravel/SKILL.md
 │  ├─ backend-node/SKILL.md
 │  ├─ backend-rails/SKILL.md
+│  ├─ code-review-backend/SKILL.md
+│  ├─ code-review-frontend/SKILL.md
+│  ├─ code-review-mobile/SKILL.md
 │  ├─ devops-lean/SKILL.md
 │  ├─ frontend-performance/SKILL.md
 │  ├─ mobile-resilience/SKILL.md
@@ -61,6 +64,9 @@ staff-plus-skills/
 | Mobile | `mobile-resilience` | Offline-first, bateria/CPU, disciplina de main-thread |
 | DevOps | `devops-lean` | SRE/FinOps — enxuto, imutável, consciente de custo |
 | QA | `qa-api-destroyer` | Testes adversariais, carga, edge cases (do seu próprio serviço) |
+| Review | `code-review-backend` | Code Review Backend — N+1, SQL perf, concorrência, contratos de API |
+| Review | `code-review-frontend` | Code Review Web Frontend — Web Vitals, re-renders, DOM perf, a11y, bundle bloat |
+| Review | `code-review-mobile` | Code Review Mobile — UI main-thread jank, native memory leaks, bateria, offline sync |
 
 ---
 

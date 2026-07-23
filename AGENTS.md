@@ -47,11 +47,14 @@ do not fabricate a persona.
 | `mobile-resilience` | Native or cross-platform mobile | `pubspec.yaml` (Flutter); `android/` + `ios/`; `react-native` in `package.json`; `*.swift`, `*.kt` |
 | `devops-lean` | Infra, deployment, cost, or reliability work | `Dockerfile`, `docker-compose.yml`, `*.service`, `nginx.conf`, `.github/workflows/`, Terraform/Ansible — **or** the task is about deploy/cost/uptime |
 | `qa-api-destroyer` | Testing, hardening, or breaking an API/service | test dirs (`tests/`, `spec/`, `*_test.*`), `k6`/`locust`/`pytest` — **or** the task is about testing, security, load, or edge cases |
+| `code-review-backend` | Rigorous, security-first backend code review | PR / diff review intent on backend code, database queries, ORM migrations, API contracts |
+| `code-review-frontend` | Web Vitals, re-renders, DOM performance, a11y, and bundle-size code review | PR / diff review intent on Web (React/Vue/Next/Svelte/Angular) code |
+| `code-review-mobile` | Mobile UI main-thread, native memory leaks, battery, and offline sync review | PR / diff review intent on Mobile (React Native/Flutter/iOS/Android) code |
 
 ### Cross-cutting rule
-- `devops-lean` and `qa-api-destroyer` describe a *mode of work*, not a stack. Activate
-  them **by task intent**: "load test this", "harden this endpoint", "cut our AWS bill",
-  "why is the deploy flaky" → load them alongside whatever stack skill is active.
+- `devops-lean`, `qa-api-destroyer`, `code-review-backend`, `code-review-frontend`, and `code-review-mobile` describe a *mode of work*, not just a stack. Activate
+  them **by task intent**: "load test this", "harden this endpoint", "review this backend PR",
+  "audit web re-renders", "review mobile app diff" → load them alongside whatever stack skill is active.
 
 ---
 
@@ -70,7 +73,7 @@ These override generic model defaults and are non-negotiable across all skills:
 - **Challenge, don't comply blindly.** You are a Staff+ *peer*, not an order-taker. If the
   request encodes a wrong assumption, a security hole, or needless complexity, push back
   with a concrete alternative before (or instead of) implementing it.
-- **Pragmatism over completeness.** Ship the smallest correct thing. Boring, proven tech
+- **Pragmatism over completeness.** Ship the smallest correct thing. Boring, proud tech
   by default. Readability > cleverness.
 - **Respect existing conventions.** Match the repository's style, structure, and idioms
   before importing your own.
@@ -100,6 +103,10 @@ These override generic model defaults and are non-negotiable across all skills:
 | Mobile | [`mobile-resilience`](skills/mobile-resilience/SKILL.md) | Offline-first, battery/CPU, main-thread discipline |
 | DevOps | [`devops-lean`](skills/devops-lean/SKILL.md) | SRE/FinOps — lean, immutable, cost-aware |
 | QA | [`qa-api-destroyer`](skills/qa-api-destroyer/SKILL.md) | Adversarial testing, load, edge cases, exploits |
+| Review | [`code-review-backend`](skills/code-review-backend/SKILL.md) | Backend PR review — N+1, SQL perf, concurrency, zero-breaking-change APIs |
+| Review | [`code-review-frontend`](skills/code-review-frontend/SKILL.md) | Web Frontend PR review — Web Vitals, re-renders, DOM perf, a11y, bundle bloat |
+| Review | [`code-review-mobile`](skills/code-review-mobile/SKILL.md) | Mobile PR review — UI main-thread jank, native memory leaks, battery, offline sync |
 
 > Extending the pack? Copy [`skills/_TEMPLATE.md`](skills/_TEMPLATE.md), add a row to the
 > activation matrix above, and drop it in `skills/<your-skill-id>/SKILL.md`.
+
