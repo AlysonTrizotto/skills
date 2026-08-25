@@ -131,8 +131,21 @@ function SearchDialog({ onClose }: { onClose: () => void }) {
 - [ ] **Layout Stability:** Media elements and async dynamic content reserve layout space to prevent CLS degradation.
 - [ ] **SSR / CSR Boundaries:** Next.js / Nuxt client components (`'use client'`) are pushed down to leaf nodes rather than wrapping whole pages.
 
+## Self-audit protocol (mandatory before publishing findings)
+
+Do not publish a finding straight out of the checklist scan above. Every flagged issue must survive three passes:
+
+1. **Investigate in context.** Before tagging anything, open the surrounding code: the parent component, how the prop/hook is used elsewhere in the tree, whether cleanup/memoization already exists one level up, whether the "heavy" computation is actually on the hot path. A tag without a code citation backing it is not a finding yet — it's a hypothesis.
+2. **Adversarial self-review.** Re-read your own Phase 1 findings as a skeptical second reviewer would, actively trying to disprove each one. For each finding, decide explicitly:
+   - **CONFIRMED** — cite the exact line(s)/pattern that prove the issue holds.
+   - **FALSE POSITIVE** — explain concretely why the concern doesn't apply here (e.g., component is already wrapped in `React.memo` by the parent, the listener is already torn down in a different effect, the prop is a stable ref from `useRef`, the "heavy" loop runs on a dataset capped at 20 items).
+   Discard or downgrade anything that doesn't survive this pass — do not keep a finding "just in case."
+3. **Coverage gap check.** Re-read the full checklist above item by item. Explicitly list which checklist items you did **not** verify in this diff — because the relevant code lives outside the diff, context was insufficient, or the file wasn't touched — instead of silently skipping them.
+
+Publish only **CONFIRMED** findings from Phase 2 as review comments, each with its supporting code citation. Publish the Phase 3 gap list as a separate summary comment (not mixed in with findings) so the human reviewer knows exactly what was and wasn't checked.
+
 ## Definition of Done
-A Web Frontend PR is approved when Core Web Vitals (LCP, CLS, INP) are protected from degradation, component renders are isolated without cascading un-memoized tree re-renders, the browser main thread remains unblocked during heavy operations, interactive controls meet WCAG AA keyboard and screen-reader accessibility standards, lifecycle subscriptions teardown cleanly without memory leaks, and JS bundle sizes are verified against unnecessary bloat.
+A Web Frontend PR is approved when Core Web Vitals (LCP, CLS, INP) are protected from degradation, component renders are isolated without cascading un-memoized tree re-renders, the browser main thread remains unblocked during heavy operations, interactive controls meet WCAG AA keyboard and screen-reader accessibility standards, lifecycle subscriptions teardown cleanly without memory leaks, JS bundle sizes are verified against unnecessary bloat, and every reported finding has passed the self-audit protocol above.
 
 ## Stack-specific gotchas
 - **React 18 Automatic Batching:** State updates inside async promises batch automatically, but inline objects passed to non-memoized children still bypass batching benefits.

@@ -106,8 +106,21 @@ class UserViewController: UIViewController {
 - [ ] **Touch & Ergonomics:** Touch targets satisfy 48x48dp (Android) / 44x44pt (iOS); layouts adapt seamlessly to Dynamic Type / font scaling.
 - [ ] **App Lifecycle:** App handles backgrounding/foregrounding without losing state or crashing on state restoration.
 
+## Self-audit protocol (mandatory before publishing findings)
+
+Do not publish a finding straight out of the checklist scan above. Every flagged issue must survive three passes:
+
+1. **Investigate in context.** Before tagging anything, open the surrounding code: is the "heavy" call already wrapped in `Dispatchers.IO` / `Task.detached` / an Isolate one layer up? Is the closure's `self` actually weak already via a base-class helper? Is the background job already routed through WorkManager/BGTaskScheduler instead of a raw thread/timer? Is the bridge payload actually small (a handful of primitives) rather than a full list? A tag without a code citation backing it is not a finding yet — it's a hypothesis.
+2. **Adversarial self-review.** Re-read your own Phase 1 findings as a skeptical second reviewer would, actively trying to disprove each one. For each finding, decide explicitly:
+   - **CONFIRMED** — cite the exact line(s)/pattern that prove the issue holds (e.g., the literal DB call on the main dispatcher, the strong `self` capture, the unbounded `startUpdatingLocation()` with no accuracy/interval cap).
+   - **FALSE POSITIVE** — explain concretely why the concern doesn't apply here (e.g., this callback already runs inside a `viewModelScope.launch(Dispatchers.IO)` block, the screen already shows cached Room/CoreData rows before the network call resolves, the WakeLock is released in a `finally` two lines below what was quoted).
+   Discard or downgrade anything that doesn't survive this pass — do not keep a finding "just in case."
+3. **Coverage gap check.** Re-read the full checklist above item by item. Explicitly list which checklist items you did **not** verify in this diff — because the native module, the background service config, or the platform-specific manifest/entitlements file lives outside the diff, or context was insufficient — instead of silently skipping them.
+
+Publish only **CONFIRMED** findings from Phase 2 as review comments, each with its supporting code citation. Publish the Phase 3 gap list as a separate summary comment (not mixed in with findings) so the human reviewer knows exactly what was and wasn't checked.
+
 ## Definition of Done
-A Mobile PR is approved when UI frame rates remain solid (60/120fps) without main-thread ANR or jank, background operations strictly comply with OS battery/power management limits, native Context/Activity/ViewController memory leaks are prevented via weak references, network operations gracefully handle offline and low-connectivity transitions with local caching, and inter-process/bridge overhead is minimized.
+A Mobile PR is approved when UI frame rates remain solid (60/120fps) without main-thread ANR or jank, background operations strictly comply with OS battery/power management limits, native Context/Activity/ViewController memory leaks are prevented via weak references, network operations gracefully handle offline and low-connectivity transitions with local caching, inter-process/bridge overhead is minimized, and every reported finding has passed the self-audit protocol above.
 
 ## Stack-specific gotchas
 - **React Native Bridge vs JSI:** Old bridge serializes JSON asynchronously; over-the-bridge state updates during high-frequency gestures cause lag. Use JSI/Reanimated worklets.

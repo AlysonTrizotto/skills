@@ -132,8 +132,21 @@ async function getOrdersWithItems(userId: string, limit = 20, cursor?: string) {
 - [ ] **No secret leakage:** Logs, stack traces, and response bodies are clean of API keys, tokens, or PII (`[LEAK]`).
 - [ ] **Resilience:** HTTP client calls to external services have explicit timeouts and retry/circuit-breaker logic.
 
+## Self-audit protocol (mandatory before publishing findings)
+
+Do not publish a finding straight out of the checklist scan above. Every flagged issue must survive three passes:
+
+1. **Investigate in context.** Before tagging anything, open the surrounding code: is the query already eager-loaded by a scope/serializer one layer up? Is there already an `Idempotency-Key` check in a shared middleware/decorator instead of the handler itself? Is the "unprotected" mutation actually inside a `SELECT ... FOR UPDATE` or DB-level unique constraint that already prevents the race? Is the "unbounded" query actually capped by a service-level default limit? A tag without a code citation backing it is not a finding yet — it's a hypothesis.
+2. **Adversarial self-review.** Re-read your own Phase 1 findings as a skeptical second reviewer would, actively trying to disprove each one. For each finding, decide explicitly:
+   - **CONFIRMED** — cite the exact line(s)/pattern that prove the issue holds (e.g., the literal query inside the loop, the missing `UNIQUE` constraint, the string-concatenated SQL).
+   - **FALSE POSITIVE** — explain concretely why the concern doesn't apply here (e.g., idempotency already enforced by a queue-level dedup key, the loop iterates over an in-memory array already fetched with `includes`, the balance update already uses `SET balance = balance + $1` atomically).
+   Discard or downgrade anything that doesn't survive this pass — do not keep a finding "just in case."
+3. **Coverage gap check.** Re-read the full checklist above item by item. Explicitly list which checklist items you did **not** verify in this diff — because the migration file, the auth middleware, or the queue consumer config lives outside the diff, or context was insufficient — instead of silently skipping them.
+
+Publish only **CONFIRMED** findings from Phase 2 as review comments, each with its supporting code citation. Publish the Phase 3 gap list as a separate summary comment (not mixed in with findings) so the human reviewer knows exactly what was and wasn't checked.
+
 ## Definition of Done
-A backend PR is approved when database queries are verified for execution plan efficiency (indexes + no N+1), non-GET endpoints and queue consumers strictly enforce idempotency, data mutations are atomic and concurrency-safe, API contracts remain strictly backwards-compatible or versioned, security validation prevents injection/IDOR, error paths fail gracefully with structured telemetry, and test coverage validates failure modes as well as happy paths.
+A backend PR is approved when database queries are verified for execution plan efficiency (indexes + no N+1), non-GET endpoints and queue consumers strictly enforce idempotency, data mutations are atomic and concurrency-safe, API contracts remain strictly backwards-compatible or versioned, security validation prevents injection/IDOR, error paths fail gracefully with structured telemetry, test coverage validates failure modes as well as happy paths, and every reported finding has passed the self-audit protocol above.
 
 ## Stack-specific gotchas
 - **Missing Unique Indexes for Idempotency Keys:** Storing idempotency keys without a DB `UNIQUE` constraint or Redis `SETNX` lock permits race conditions under parallel requests.
